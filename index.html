@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #fff;
+      /* White background */
+      color: #000;
+      /* Black text */
+    }
+
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 2em;
+      border-radius: 8px;
+      border: 1px solid #000;
+    }
+
+    h1,
+    h2 {
+      color: #000;
+      /* Black headings */
+    }
+
+    .habit {
+      margin: 1.5em 0;
+    }
+
+    .count-display {
+      font-size: 2em;
+      font-weight: bold;
+      color: #000;
+      /* Black count display */
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>tim's habit tracker</h1>
+
+    <div class="habit">
+      <h2>cigarettes</h2>
+      <p>you have been free from cigarettes for:</p>
+      <div id="cigarettes-count" class="count-display"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Set the start date for quitting cigarettes
+      const startDate = new Date(); // The date is set to "today" as requested
+
+      // Function to update the count
+      function updateCount() {
+        const now = new Date();
+        const timeDifference = now - startDate;
+
+        // Calculate days and hours
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        // Display the count
+        const countDisplay = document.getElementById('cigarettes-count');
+        countDisplay.textContent = `${days} days and ${hours} hours`;
+      }
+
+      // Update the count every second
+      setInterval(updateCount, 1000);
+    });
+  </script>
+
+</body>
+
+</html>
