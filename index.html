@@ -43,6 +43,36 @@
       color: #000;
       /* Black count display */
     }
+
+    .reset-button {
+      margin-top: 1em;
+      padding: 0.5em 1em;
+      font-size: 1em;
+      cursor: pointer;
+      border: 1px solid #000;
+      border-radius: 4px;
+      background-color: #f0f0f0;
+    }
+
+    .previous-streaks-container {
+      margin-top: 2em;
+      border-top: 1px solid #eee;
+      padding-top: 1em;
+    }
+
+    .previous-streaks-container h3 {
+      margin-bottom: 0.5em;
+    }
+
+    .previous-streaks-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .previous-streaks-list li {
+      margin-bottom: 0.3em;
+      font-size: 0.9em;
+    }
   </style>
 </head>
 
@@ -56,26 +86,59 @@
       <p>you have been free from cigarettes for:</p>
       <div id="cigarettes-count" class="count-display"></div>
     </div>
+
+    <div class="previous-streaks-container">
+      <h3>Previous Streaks:</h3>
+      <ul id="previous-streaks-list" class="previous-streaks-list">
+        <!-- Previous streaks will be loaded here -->
+      </ul>
+    </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // Set the start date for quitting cigarettes
-      const startDate = new Date(2025, 8, 5, 22, 0, 0);
+      const cigarettesCountDisplay = document.getElementById('cigarettes-count');
+      const previousStreaksList = document.getElementById('previous-streaks-list');
 
-      // Function to update the count
+      // Initialize streak data with static values directly in the script.
+      // The current streak always starts from today when the page loads.
+      // To update previous streaks persistently in the HTML file, the agent must be
+      // explicitly instructed to modify this file with new static values.
+      let currentStreakStartDate = new Date(); // The counter always resets to today
+      let previousStreaks = []; // Initial empty array of previous streaks
+
+      // Function to calculate and display the current count
       function updateCount() {
         const now = new Date();
-        const timeDifference = now - startDate;
+        const timeDifference = now - currentStreakStartDate;
 
         // Calculate days and hours
         const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
         const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-        // Display the count
-        const countDisplay = document.getElementById('cigarettes-count');
-        countDisplay.textContent = `${days} days and ${hours} hours`;
+        cigarettesCountDisplay.textContent = `${days} days and ${hours} hours`;
       }
+
+      // Function to display previous streaks
+      function displayPreviousStreaks() {
+        previousStreaksList.innerHTML = ''; // Clear existing list
+        if (previousStreaks.length === 0) {
+          previousStreaksList.innerHTML = '<li>No previous streaks yet.</li>';
+          return;
+        }
+
+        previousStreaks.forEach(streak => {
+          const listItem = document.createElement('li');
+          const startDateFormatted = streak.startDate.toLocaleDateString();
+          const endDateFormatted = streak.endDate.toLocaleDateString();
+          listItem.textContent = `${startDateFormatted} to ${endDateFormatted} (${streak.durationDays} days)`;
+          previousStreaksList.appendChild(listItem);
+        });
+      }
+
+      // Initial display
+      updateCount();
+      displayPreviousStreaks();
 
       // Update the count every second
       setInterval(updateCount, 1000);
