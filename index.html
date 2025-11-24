@@ -105,7 +105,13 @@
       // To update previous streaks persistently in the HTML file, the agent must be
       // explicitly instructed to modify this file with new static values.
       let currentStreakStartDate = new Date(); // The counter always resets to today
-      let previousStreaks = []; // Initial empty array of previous streaks
+      let previousStreaks = [
+        {
+          startDate: new Date(2025, 8, 6), // September 6, 2025
+          endDate: new Date(2025, 10, 24), // November 24, 2025
+          durationDays: 79
+        }
+      ]; // Initial array of previous streaks
 
       // Function to calculate and display the current count
       function updateCount() {
